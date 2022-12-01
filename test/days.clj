@@ -11,7 +11,7 @@
       (is (= part2 (actual :part2))))))
     
 (deftest day1-test
-  (test-day "examples" 1 day1/solve 7 5)
-  (test-day "problems" 1 day1/solve 1722 1749))
+  (test-day "examples" 1 day1/solve 24000 45000)
+  (test-day "problems" 1 day1/solve 73211 213958))
 
 (run-tests)

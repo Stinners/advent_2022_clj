@@ -1,19 +1,25 @@
 (ns solutions.day1
-  (:require [readers :refer [read-ints]]))
+  (:require [readers :refer [read-str]]))
 
-(defn part1 [numbers]
-  (->> numbers 
-       (partition 2 1)
-       (filter (fn [[fst snd]] (< fst snd)))
-       count))
+(defn- sum-elf [cals] 
+  (->> cals 
+      (map read-string)
+      (apply +)))
 
-(defn part2 [numbers]
-  (->> numbers 
-       (partition 3 1)
-       (map #(apply + %))
-       part1))
+(defn- read-elves [filename]
+  (->> filename 
+       read-str
+       (partition-by #(= % ""))
+       (filter #(not= % `("")))
+       (map sum-elf)))
+
+(defn- elves-sum [elves n]
+  (->> elves
+       sort
+       (take-last n)
+       (apply +)))
 
 (defn solve [filename]
-  (let [numbers (read-ints filename)]
-    {:part1 (part1 numbers)
-     :part2 (part2 numbers)}))
+  (let [elves (read-elves filename)]
+    {:part1 (elves-sum elves 1)
+     :part2 (elves-sum elves 3)}))

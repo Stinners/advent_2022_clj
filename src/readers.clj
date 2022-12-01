@@ -8,7 +8,7 @@
 (defn parse-int [i] (Integer. i))
 
 (def read-ints (partial read-lines #(Integer. %1))) 
+(def read-str (partial read-lines identity)) 
 
-(comment
-  (read-lines identity "examples/day1.txt")
-  (read-ints "examples/day1.txt"))
+(comment 
+  (read-literal "./examples/day1.txt"))
