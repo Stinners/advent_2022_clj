@@ -1,6 +1,7 @@
 (ns main
   (:gen-class)
   (:require [solutions.day1 :as day1]
+            [solutions.day2 :as day2]
             [clojure.spec.alpha :as s]
             [clojure.pprint :as pp]))
 
@@ -9,7 +10,8 @@
 (s/def :input/input (s/cat :dir :input/dir :day :input/day))
 
 (def solutions 
-  {1 day1/solve})
+  {1 day1/solve 
+   2 day2/solve})
 
 (defn error [check? message value]
   (when (check? value)
