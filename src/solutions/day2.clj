@@ -1,6 +1,7 @@
 (ns solutions.day2
   (:require [readers :refer [read-split]]
-            [clojure.set :refer [ map-invert]]))
+            [clojure.set :refer [ map-invert]]
+            [common :refer [sum]]))
 
 ;; ============== Rock-Paper-Scissors Rules 
 
@@ -21,7 +22,7 @@
 
 (defn score-games [games]
   (defn score [[opp you]] (+ (shape-score you) (get-outcome-score you opp)))
-  (apply + (map score games)))
+  (sum (map score games)))
 
 ;; ============== Part 1
 
@@ -43,11 +44,11 @@
     :draw  opp))
 
 (defn part2 [lines]
-  (for [[opp target] lines
-        :let [opp (decode-left opp)
-              target (decode-right-part2 target)
-              you (chose-outcome opp target)]]
-    [opp you]))
+    (for [[opp target] lines
+          :let [opp (decode-left opp)
+                target (decode-right-part2 target)
+                you (chose-outcome opp target)]]
+      [opp you]))
 
 ;; ============== Solve
 
