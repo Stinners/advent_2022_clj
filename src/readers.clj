@@ -10,7 +10,3 @@
 (def read-ints (partial read-lines #(Integer. %1))) 
 (def read-str (partial read-lines identity)) 
 (def read-split (partial read-lines #(clojure.string/split % #" ")))
-
-(comment 
-  (read-literal "./examples/day1.txt")
-  (read-split "./examples/day2.txt"))

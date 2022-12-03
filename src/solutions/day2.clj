@@ -5,7 +5,6 @@
 ;; ============== Rock-Paper-Scissors Rules 
 
 (def shape-score   {:rock 1 :paper 2 :scissors 3})
-(def outcome-score {:win 6 :draw 3 :lose 0})
 
 (def beats 
     {:paper :rock
@@ -14,14 +13,15 @@
 
 (def loses (map-invert beats))
 
-(defn get-outcome [you opp]
+(defn get-outcome-score [you opp]
   (cond 
-    (= (you beats) opp)  :win
-    (= (you loses) opp)  :lose
-    :else                :draw))
+    (= (you beats) opp)  6    ;; win
+    (= (you loses) opp)  0    ;; lose
+    :else                3))  ;; draw
 
-(defn score [[opp you]] 
-  (+ (shape-score you) (outcome-score (get-outcome you opp))))
+(defn score-games [games]
+  (defn score [[opp you]] (+ (shape-score you) (get-outcome-score you opp)))
+  (apply + (map score games)))
 
 ;; ============== Part 1
 
@@ -29,10 +29,8 @@
 (def decode-right-part1 {"X" :rock "Y" :paper "Z" :scissors})
 
 (defn part1 [lines]
-  (->> lines 
-       (map (fn [[opp you]] [(decode-left opp) (decode-right-part1 you)]))
-       (map score)
-       (apply +)))
+  (for [[opp you] lines]
+    [(decode-left opp) (decode-right-part1 you)]))
   
 ;; ============== Part 2
 
@@ -45,17 +43,15 @@
     :draw  opp))
 
 (defn part2 [lines]
-  (->> lines 
-       (map (fn [[opp you]] [(decode-left opp) (decode-right-part2 you)]))
-       (map (fn [[opp target]] [opp (chose-outcome opp target)]))
-       (map score)
-       (apply +)))
+  (for [[opp target] lines
+        :let [opp (decode-left opp)
+              target (decode-right-part2 target)
+              you (chose-outcome opp target)]]
+    [opp you]))
 
 ;; ============== Solve
 
 (defn solve [filename]
   (let [lines (read-split filename)]
-      {:part1 (part1 lines)
-       :part2 (part2 lines)})) 
-
-(solve "problems/day2.txt")
+      {:part1 (-> lines part1 score-games)
+       :part2 (-> lines part2 score-games)})) 
