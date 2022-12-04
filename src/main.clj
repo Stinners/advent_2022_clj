@@ -3,6 +3,7 @@
   (:require [solutions.day1 :as day1]
             [solutions.day2 :as day2]
             [solutions.day3 :as day3]
+            [solutions.day4 :as day4]
             [clojure.spec.alpha :as s]
             [clojure.pprint :as pp]))
 
@@ -13,7 +14,8 @@
 (def solutions 
   {1 day1/solve 
    2 day2/solve
-   3 day3/solve})
+   3 day3/solve
+   4 day4/solve})
 
 (defn error [check? message value]
   (when (check? value)
