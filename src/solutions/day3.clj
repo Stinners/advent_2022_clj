@@ -20,16 +20,16 @@
 
 (defn sum-priorities [contents]
   (->> contents
-       (map (>> get-shared priorities)
-        sum)))
+       (map (>> get-shared priorities))
+       sum))
 
 ;; ========================== Part 2 
 
 (defn sum-badges [contents]
   (->> contents
        (partition 3)
-       (map (>> find-common priorities)
-        sum)))
+       (map (>> find-common priorities))
+       sum))
 
 ;; ========================== Main
 
@@ -37,3 +37,5 @@
   (let [lines (read-str filename)]
     {:part1 (sum-priorities lines)
      :part2 (sum-badges lines)}))
+
+(solve "problems/day3.txt")
