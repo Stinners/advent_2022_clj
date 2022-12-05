@@ -3,6 +3,7 @@
             [solutions.day2 :as day2]
             [solutions.day3 :as day3]
             [solutions.day4 :as day4]
+            [solutions.day5 :as day5]
             [clojure.test :refer :all]))
 
 (defn test-day [directory day solver part1 part2]
@@ -28,6 +29,10 @@
 (deftest day4-test
   (test-day "examples" 4 day4/solve 2 4)
   (test-day "problems" 4 day4/solve 305 811))
+
+(deftest day5-test
+  (test-day "examples" 5 day5/solve "CMZ" "MCD")
+  (test-day "problems" 5 day5/solve "RTGWZTHLD" "STHGRZZFR"))
 
 
 (run-tests)
