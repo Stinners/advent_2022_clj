@@ -5,6 +5,7 @@
             [solutions.day3 :as day3]
             [solutions.day4 :as day4]
             [solutions.day5 :as day5]
+            [solutions.day6 :as day6]
             [clojure.spec.alpha :as s]
             [clojure.pprint :as pp]))
 
@@ -17,7 +18,8 @@
    2 day2/solve
    3 day3/solve
    4 day4/solve
-   5 day5/solve})
+   5 day5/solve
+   6 day7/solve})
 
 (defn error [check? message value]
   (when (check? value)
