@@ -27,7 +27,7 @@
   (case dir-name
     ".." (zip/up filesystem)
     (or (->> filesystem get-children (filter #(check-loc % dir-name)) first)
-        (-> filesystem (zip/insert-child (new-node dir-name)) zip/down))))
+        (-> filesystem (zip/insert-child (new-dir dir-name)) zip/down))))
 
 (defn eval-line [tree line]
   (let [parts (str/split line #" ")
@@ -45,16 +45,22 @@
                 size (apply + (map :size children))]
            (assoc node :size size :contents children))))
 
-(defn part1 [node]
-  (cond 
-    (some? (node :filename)) (node :size)
-    (< 10000 (node :size))   (node :size)
-    :else (+ (node :size) (apply + (map part1 (node :contents))))))
+(defn flatten [fs]
+  (if (fs :dir-name)
+    (concat (list (fs :size)) (apply concat (map flatten (fs :contents))))
+    '())) 
+    
+(defn part1 [dirs]
+  (->> dirs (filter #(>= 100000 %)) (apply +)))
+
+(defn part2 [dirs required-space]
+  (->> dirs (filter #(<= required-space %)) sort first))
+  
 
 (defn solve [filename]
   (let [lines (rest (read-str filename))
-        fs (->> lines (reduce eval-line filesystem) zip/root)]
-    {:part1 (part1 fs)}))
-
-(solve "examples/day7.txt") ; {:part1 44125990}
-
+        fs (->> lines (reduce eval-line filesystem) zip/root sum-directories)
+        required-space (- (fs :size) 40000000)
+        dirs (flatten fs)]
+     {:part1 (part1 dirs)
+      :part2 (part2 dirs required-space)}))
